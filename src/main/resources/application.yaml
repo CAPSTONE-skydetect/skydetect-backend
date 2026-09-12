@@ -1,3 +1,20 @@
 spring:
   application:
     name: skydetect-backend
+
+  # 접속 정보 등 로컬 전용 설정은 application-local.yaml 에 둔다.
+  # 이 파일은 커밋되지 않으며, 없어도 애플리케이션은 기동된다(optional).
+  config:
+    import: optional:application-local.yaml
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/skydetect?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
