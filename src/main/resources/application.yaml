@@ -18,3 +18,32 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+server:
+  servlet:
+    session:
+      # 유휴 만료. 요청이 올 때마다 갱신된다.
+      timeout: 30m
+      cookie:
+        http-only: true
+        same-site: lax
+        # HTTPS 환경에서만 true 로 둔다. 로컬은 http 라 켜면 쿠키가 전달되지 않는다.
+        secure: false
+
+skydetect:
+  auth:
+    # 로그인 시각 기준 절대 만료. 유휴 만료와 달리 활동해도 갱신되지 않는다.
+    absolute-session-timeout: 12h
+
+springdoc:
+  # API 문서는 기본적으로 끈다. 로컬에서만 application-local.yaml 로 켠다.
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
+    # XSRF-TOKEN 쿠키를 읽어 X-XSRF-TOKEN 헤더로 붙여준다.
+    # 이게 없으면 Swagger UI 에서 보내는 POST 요청이 전부 403 이 된다.
+    csrf:
+      enabled: true
+    # 태그/오퍼레이션을 정의 순서대로 보여준다
+    operations-sorter: method
