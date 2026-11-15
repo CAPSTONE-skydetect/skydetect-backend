@@ -1,0 +1,8 @@
+.git/
+.gradle/
+.idea/
+.claude/
+build/
+# 로컬 자격증명이 jar 에 구워지지 않게 한다. 컨테이너는 환경변수로 받는다.
+src/main/resources/application-local.yaml
+src/main/resources/application-local.yml
