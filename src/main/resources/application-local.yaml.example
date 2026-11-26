@@ -20,6 +20,17 @@ skydetect:
       username: operator
       password: 여기에_운영자_비밀번호
 
+    # 실제 메일 발송을 시험할 때만 켠다. 기본(log)은 메일 내용을 로그에 찍는다.
+    # mail:
+    #   mode: smtp
+    #   from: 보내는_주소@gmail.com   # 비우면 spring.mail.username 을 쓴다
+
+# Gmail 앱 비밀번호(16자리). 계정 비밀번호가 아니다.
+# spring:
+#   mail:
+#     username: 보내는_주소@gmail.com
+#     password: 앱_비밀번호
+
 springdoc:
   # API 문서는 로컬에서만 연다. http://localhost:8080/swagger-ui.html
   api-docs:

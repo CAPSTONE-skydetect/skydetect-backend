@@ -2,6 +2,7 @@ package com.skydetect.backend.auth.account;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
  * 바꿀 수 있다. 운영에 올리기 전에 SMTP 구현으로 교체한다.
  */
 @Component
+@ConditionalOnProperty(name = "skydetect.auth.mail.mode", havingValue = "log", matchIfMissing = true)
 public class LoggingAuthMailSender implements AuthMailSender {
 
     private static final Logger log = LoggerFactory.getLogger(LoggingAuthMailSender.class);
