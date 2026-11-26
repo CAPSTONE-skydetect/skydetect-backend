@@ -34,6 +34,13 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    /**
+     * 아이디·비밀번호 찾기에 쓰는 이메일. 소문자로 정규화해 저장한다.
+     * 회원가입 기능 이전에 만든 계정은 비어 있다(null).
+     */
+    @Column(unique = true, length = 254)
+    private String email;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
     private Role role;
@@ -46,10 +53,16 @@ public class User {
     private LocalDateTime createdAt;
 
     @Builder
-    public User(String username, String password, Role role) {
+    public User(String username, String password, String email, Role role) {
         this.username = username;
         this.password = password;
+        this.email = email;
         this.role = role;
         this.enabled = true;
+    }
+
+    /** 이미 인코딩된 비밀번호로 바꾼다. */
+    public void changePassword(String encodedPassword) {
+        this.password = encodedPassword;
     }
 }
