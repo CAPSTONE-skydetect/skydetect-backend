@@ -11,6 +11,22 @@ spring:
     url: jdbc:mysql://localhost:3306/skydetect?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+  # 안내 메일(아이디 찾기, 비밀번호 재설정)을 보낼 SMTP. 기본은 Gmail 이고 로그인 정보는 저장소에 두지 않는다.
+  # 운영은 환경변수 SPRING_MAIL_USERNAME / SPRING_MAIL_PASSWORD, 로컬은 application-local.yaml 에서 채운다.
+  # skydetect.auth.mail.mode 가 smtp 일 때만 실제로 보낸다(아래).
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 10000
+          writetimeout: 10000
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -34,6 +50,11 @@ skydetect:
   auth:
     # 로그인 시각 기준 절대 만료. 유휴 만료와 달리 활동해도 갱신되지 않는다.
     absolute-session-timeout: 12h
+    # 비밀번호 재설정 메일의 링크가 가리킬 사이트 주소. 운영은 SKYDETECT_AUTH_FRONTEND_BASE_URL 로 지정한다.
+    frontend-base-url: http://localhost:5173
+    mail:
+      # log: 메일을 보내지 않고 로그에 출력(로컬 기본). smtp: 실제 발송. 운영은 SKYDETECT_AUTH_MAIL_MODE=smtp.
+      mode: log
 
 springdoc:
   # API 문서는 기본적으로 끈다. 로컬에서만 application-local.yaml 로 켠다.
