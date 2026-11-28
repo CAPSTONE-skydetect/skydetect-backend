@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -39,6 +40,14 @@ public class SecurityConfig {
 
     private static final String LOGIN_URL = "/api/auth/login";
     private static final String LOGOUT_URL = "/api/auth/logout";
+
+    /** 로그인 전에 써야 하는 계정 API. 이 경로만 인증 없이 열고, CSRF 토큰은 그대로 요구한다. */
+    private static final String[] ACCOUNT_URLS = {
+            "/api/auth/signup",
+            "/api/auth/find-username",
+            "/api/auth/password-reset/request",
+            "/api/auth/password-reset/confirm"
+    };
 
     /**
      * API 문서 경로. 로컬에서만 springdoc 을 켜므로(application.yaml 참고)
@@ -74,6 +83,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(LOGIN_URL).permitAll()
+                        .requestMatchers(HttpMethod.POST, ACCOUNT_URLS).permitAll()
                         .requestMatchers(API_DOCS_URLS).permitAll()
                         .anyRequest().authenticated()
                 )
